@@ -1,4 +1,5 @@
-It is common in our recognition programs for supervisors to need assistance planning for their direct reports' milestone anniversaries.  To assist the supervisors, you will write a program in the language of your choosing that outputs a list of upcoming anniversaries.
+# Challenge Statement
+It is common in recognition programs for supervisors to need assistance planning for their direct reports' milestone anniversaries.  To assist the supervisors, you will write a program in the language of your choosing that outputs a list of upcoming anniversaries.
  
 Your program should accept a two arguments on the command line.  The first argument must be a file name, which contains CSV data.  The CSV data is formatted as:
  
@@ -15,7 +16,7 @@ For your program's purposes, a "direct report" of an employee is any other emplo
 The output data must be structured as the employee's id and then up to five milestone anniversaries in date order.  Each milestone anniversary must specify the employee id of the direct report and the calculated upcoming anniversary date.
  
 Example output block from a different data file, assuming a run date of Oct 1, 2015:
- 
+```
 {
   "supervisor_id": "0028356",
   "upcoming_milestones": [
@@ -41,6 +42,6 @@ Example output block from a different data file, assuming a run date of Oct 1, 2
     }
   ]
 }
- 
+```
 This output block is conveying that supervisor 0028356 should be aware that the next five milestone anniversaries for their direct reports fall on 10/3, 10/5, 10/17, and 10/22.
  

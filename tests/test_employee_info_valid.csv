@@ -1,0 +1,16 @@
+employee_id,first_name,last_name,hire_date,supervisor_id
+nwolfe159,Nolan,Wolfe,1982-08-24,jbrady157
+jhuber153,Joycelyn,Huber,1980-05-26,swoodward152
+jsandoval218,Jose,Sandoval,1993-02-04,rhardy213
+gklein237,Gilbert,Klein,2006-06-13,rhardy213
+jbrady157,Jill,Brady,1980-06-16,tyoung148
+dhiggins183,Deana,Higgins,1977-09-02,bdowns178
+npoole175,Nell,Poole,1995-02-27,jbrady157
+brusso217,Brittanie,Russo,2009-12-27,rhardy213
+dwilkinson250,Dortha,Wilkinson,1984-12-23,fstrong242
+sboyer211,Sheila,Boyer,2003-04-20,ballison200
+efrost210,Eryn,Frost,1976-04-07,ballison200
+pmann282,Palmira,Mann,2015-01-08,mcoleman145
+bguy146,Brad,Guy,1979-06-08,mcoleman145
+cstein150,Carina,Stein,2011-05-26,tyoung148
+fwhite165,Francesco,White,2003-05-18,jbrady157

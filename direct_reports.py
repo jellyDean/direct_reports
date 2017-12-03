@@ -15,7 +15,6 @@ http://stackoverflow.com/questions/82831/how-to-check-whether-a-file-exists-usin
 """
 
 import csv
-import json
 import sys
 import argparse
 import os.path
@@ -47,6 +46,7 @@ def calculate_anniversary_dates(hire_date, run_date):
         if new_date < run_date:
             continue
         anniversary_dates.append(new_date)
+
     return anniversary_dates
 
 
@@ -63,10 +63,15 @@ def etl_csv_file(input_file_location):
 
     all_employee_dict = {}
     supervisor_employee_dict = {}
+    header_row = 'employee_id,first_name,last_name,hire_date,supervisor_id'
+
     with open(input_file_location, mode='r') as employee_csv_file:
 
-        # skip reading in the header
-        next(employee_csv_file, None)
+        # verify the header exists. If the header is not correct error out and return
+        first_row = next(employee_csv_file, None)
+        if first_row.rstrip() != header_row:
+            return False, "The header row in the %s CSV file must be %s" % (input_file_location, header_row)
+
         employee_csv_reader = csv.reader(employee_csv_file)
         for count, row in enumerate(employee_csv_reader):
 
@@ -74,9 +79,10 @@ def etl_csv_file(input_file_location):
             try:
                 hire_date = datetime.strptime(row[3], '%Y-%m-%d')
             except ValueError as e:
-                print("There has been an error parsing a date in the input file. Please correct '{0}' at line '{1}' "
-                      "so that it follows follows the '2011-03-24' date format.".format(row[3], count))
-                sys.exit()
+                print (e)
+                message = "There has been an error parsing a date in the input file. Please correct '{0}' at " \
+                          "line '{1}' so that it follows follows the '2011-03-24' date format.".format(row[3], count)
+                return False, message
 
             employee_id = row[0]
             employee = {
@@ -126,7 +132,10 @@ def generate_milestone_data(supervisor_employee_dict, all_employee_dict, run_dat
         for emp in employees:
             hire_date = emp.get('hire_date')
             emp_id = emp.get('employee_id')
-            anv_dates = calculate_anniversary_dates(hire_date, run_date)
+            anv_dates = calculate_anniversary_dates(
+                hire_date,
+                run_date
+            )
 
             # This is built to support employees that share a common milestone date
             for date in anv_dates:
@@ -162,7 +171,6 @@ def main():
     """
     Main execution of program that is called when script is ran.
     """
-
     # Parse the required args for processing
     parser = argparse.ArgumentParser(description='This is a direct report calculator made by Dean Hutton')
     parser.add_argument('-i', '--input', help='Input file name used to run direct reports on.', required=True)
@@ -173,7 +181,7 @@ def main():
 
     # Do error checking making sure run_date is valid date and that input file exists
     if not os.path.isfile(input_file_location):
-        print("There has been an error locating the input file. Please make sure this file exists {}".format(args.input))
+        print('There has been an error locating the input file. Please make sure this file exists {}'.format(args.input))
         sys.exit()
 
     try:
@@ -185,7 +193,16 @@ def main():
 
     all_employee_dict, supervisor_employee_dict = etl_csv_file(input_file_location)
 
-    supervisor_milestone_list, all_employee_dict = generate_milestone_data(supervisor_employee_dict, all_employee_dict, run_date)
+    # Check to see if there was an error parsing the CSV file and if so print it and exit
+    if not all_employee_dict:
+        print supervisor_employee_dict
+        sys.exit()
+
+    supervisor_milestone_list, all_employee_dict = generate_milestone_data(
+        supervisor_employee_dict,
+        all_employee_dict,
+        run_date
+    )
     non_supervisor_list = []
 
     # Create placeholders for all employees that are not supervisors so they can be printed
@@ -198,11 +215,7 @@ def main():
     # Combine supervisors with non-supervisors for printing
     final_output_list = supervisor_milestone_list + non_supervisor_list
 
-    # Print one copy on JSON as per reqs
-    print ('JSON ENCODED')
-    pprint.pprint(json.dumps(final_output_list))
-
-    # Print another copy in plain text so that it is easier to see
+    # # Print out the results
     print ('Plain Text')
     pprint.pprint(final_output_list)
 
