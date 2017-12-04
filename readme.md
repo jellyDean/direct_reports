@@ -34,5 +34,5 @@ it is recommended to use a virtual environment to house all these libraries and 
 # Running Tests
 1. Follow steps 1-5 in the Setup and Usage section above
 2. Navigate to the tests directory ``` cd /Users/deanhutton/workdir/Personal/Repos/direct_reports/tests ```
-3. Enter ``` nosettests ``` in terminal and push enter
+3. Enter ``` nosetests ``` in terminal and push enter
 4. 5 Unit tests will run
