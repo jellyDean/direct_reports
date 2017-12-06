@@ -10,13 +10,11 @@ from datetime import datetime
 import os
 
 
-"""
-Test that verifies the next 5 upcoming date milestones have a difference of 5 years between them. If the difference is 
-not 5 error out and return an error message.
-"""
-
-
 def test_calculate_anniversary_dates():
+    """
+    Test that verifies the next 5 upcoming date milestones have a difference of 5 years between them. If the difference is
+    not 5 error out and return an error message.
+    """
 
     hire_date = datetime(2008, 7, 22, 0, 0)
     run_date = datetime(1000, 3, 24, 0, 0)
@@ -39,12 +37,11 @@ def test_calculate_anniversary_dates():
         assert next_year - year == 5, 'The difference between the years is not equal to 5'
 
 
-"""
-Test that the types in the date structures read from a valid CSV are correct
-"""
-
-
 def test_etl_csv_file_with_valid_dates():
+    """
+    Test that the types in the date structures read from a valid CSV are correct
+    """
+
     test_file_path = "%s/%s" % (os.getcwd(), "test_employee_info_valid.csv")
     all_employee_dict, supervisor_employee_dict = direct_reports.etl_csv_file(
         test_file_path
@@ -62,12 +59,11 @@ def test_etl_csv_file_with_valid_dates():
             assert isinstance(employee.get('hire_date'), datetime), 'Employee hire date should be of type datetime'
 
 
-"""
-Test if there is an invalid date format in the CSV file
-"""
-
-
 def test_etl_csv_file_with_invalid_dates():
+    """
+    Test if there is an invalid date format in the CSV file
+    """
+
     test_file_path = "%s/%s" % (os.getcwd(), "test_employee_info_invalid_date.csv")
     all_employee_dict, supervisor_employee_dict = direct_reports.etl_csv_file(
         test_file_path
@@ -76,12 +72,11 @@ def test_etl_csv_file_with_invalid_dates():
     assert supervisor_employee_dict == "There has been an error parsing a date in the input file. Please correct '1977-09-02BADBADBAD' at line '0' so that it follows follows the '2011-03-24' date format."
 
 
-"""
-Test if the CSV file has an invalid header
-"""
-
-
 def test_etl_csv_file_with_invalid_header():
+    """
+    Test if the CSV file has an invalid header
+    """
+
     test_file_path = "%s/%s" % (os.getcwd(), "test_employee_info_invalid_header.csv")
     all_employee_dict, supervisor_employee_dict = direct_reports.etl_csv_file(
         test_file_path
@@ -90,12 +85,11 @@ def test_etl_csv_file_with_invalid_header():
     assert "CSV file must be employee_id,first_name,last_name,hire_date,supervisor_id" in supervisor_employee_dict
 
 
-"""
-Test if the milestone list for supervisors has the correct amount of supervisors
-"""
-
-
 def test_generate_milestone_data_with_valid_data():
+    """
+    Test if the milestone list for supervisors has the correct amount of supervisors
+    """
+
     test_file_path = "%s/%s" % (os.getcwd(), "test_employee_info_valid.csv")
     run_date = datetime(1000, 3, 24, 0, 0)
 
